@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/StyleRoot"
+    android:background="@color/purple_500"
+    tools:ignore="ContentDescription">
+
+    <LinearLayout
+        style="@style/FView">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:id="@+id/toolbar"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:background="@color/toolbar"
+            app:titleTextColor="@color/colorWhite"
+            android:layout_height="?attr/actionBarSize"/>
+
+        <RelativeLayout
+            style="@style/VWView">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/player_view_lib"
+            style="@style/FView"
+            app:use_controller="false"
+            app:shutter_background_color="@color/purple_500"
+            app:scrubber_color="@color/purple_500"
+            app:played_color="@color/purple_500"
+            app:buffered_color="@color/purple_500"
+            android:background="@color/purple_500"
+            android:layout_gravity="center_vertical">
+
+
+        </com.google.android.exoplayer2.ui.PlayerView>
+
+            <ImageView
+                style="@style/WView"
+                android:src="@drawable/ic_video_play_lib"
+                android:padding="12dp"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:id="@+id/image_play_pause"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <!--        -->
+    <include
+        android:id="@+id/include"
+        layout="@layout/view_video_controller"/>
+
+    <TextView
+        android:paddingEnd="15dp"
+        android:id="@+id/txt_final_duration"
+        style="@style/TxtRgStyle22"
+        app:layout_anchor="@id/include"
+        app:layout_anchorGravity="top|end"
+        android:layout_gravity="top"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="40dp"
+        android:text="~00:02:33"
+        android:textColor="#80FFFFFF"
+        android:textSize="14sp"
+        android:visibility="visible" />
+
+    <TextView
+        style="@style/TxtRgStyle22"
+        app:layout_anchor="@id/include"
+        app:layout_anchorGravity="bottom|start"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="40dp"
+        android:textSize="14sp"
+        android:visibility="visible"
+        android:textColor="#80FFFFFF"
+        android:id="@+id/txt_start_duration"
+        />
+
+    <TextView
+        style="@style/TxtRgStyle22"
+        app:layout_anchor="@id/include"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="10dp"
+        android:textSize="14sp"
+        android:visibility="visible"
+        android:textColor="#80FFFFFF"
+        android:id="@+id/txt_end_duration"
+        android:layout_marginBottom="40dp"
+        />
+
+<!--    <ImageButton-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        android:paddingTop="20dp"-->
+<!--        app:layout_anchor="@id/toolbar"-->
+<!--        app:layout_anchorGravity="top|end"-->
+<!--        android:background="@null"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/ic_baseline_screen_rotation_24"-->
+<!--        android:id="@+id/changeOrientation"/>-->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

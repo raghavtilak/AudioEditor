@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/Filetype"
+        style="@style/TextLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/teal_700"
+        android:text="File Type"/>
+
+    <com.raghav.audioeditor.RadioGridGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/typeRadioGroup">
+        <TableRow
+            android:layout_marginTop="5dp">
+
+            <RadioButton
+                android:textColor="@color/teal_700"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mp3"
+                android:id="@+id/radioMp3"/>
+            <RadioButton
+                android:textColor="@color/teal_700"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="aac"
+                android:id="@+id/radioAac"/>
+            <RadioButton
+                android:textColor="@color/teal_700"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="m4a"
+                android:id="@+id/radioM4a"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <RadioButton
+                android:id="@+id/radioOgg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ogg"
+                android:textColor="@color/teal_700" />
+
+            <RadioButton
+                android:id="@+id/radioWav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="wav"
+                android:textColor="@color/teal_700" />
+
+            <RadioButton
+                android:id="@+id/radioFlac"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="flac"
+                android:textColor="@color/teal_700" />
+        </TableRow>
+    </com.raghav.audioeditor.RadioGridGroup>
+
+    <TextView
+        android:paddingTop="10dp"
+        style="@style/TextLarge"
+        android:id="@+id/ProcessType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/teal_700"
+        android:text="Process Type"/>
+
+    <RadioGroup
+        android:id="@+id/processTypeRadioGroup"
+        android:checkedButton="@id/radioJoin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton
+            android:textColor="@color/teal_700"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Join"
+            android:id="@+id/radioJoin"/>
+        <RadioButton
+            android:textColor="@color/teal_700"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mix"
+            android:id="@+id/radioMix"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <CheckBox
+        android:paddingEnd="20dp"
+        android:textColor="@color/teal_700"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkCrossfade"
+        android:text="Crossfade"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Configure"
+        android:id="@+id/btnConfigure"/>
+</LinearLayout>
+</LinearLayout>

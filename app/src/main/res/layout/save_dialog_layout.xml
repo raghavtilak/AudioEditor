@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:hint="Filename"
+        app:boxBackgroundColor="@color/teal_700"
+        android:id="@+id/filenameTIL"
+        app:suffixText=".mp3">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/filename"
+            android:maxLines="1"
+            android:lines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <TextView-->
+<!--        android:padding="4dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Output Folder:"/>-->
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--    <TextView-->
+<!--        android:paddingStart="4dp"-->
+<!--        android:layout_toStartOf="@+id/dirChange"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/outputPath"-->
+<!--        android:text="/MOVIES/VideoMerger"/>-->
+<!--        <Button-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/dirChange"-->
+<!--            android:text="Change"/>-->
+<!--    </RelativeLayout>-->
+
+    <TextView
+        android:padding="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="More options >>"
+        android:textColor="@color/teal_200"
+        android:id="@+id/moreOptions"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:id="@+id/titleTIL"
+        android:visibility="gone"
+        app:boxBackgroundColor="@color/teal_700"
+        android:hint="Title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/title"
+            android:maxLines="1"
+            android:lines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:id="@+id/artistTIL"
+        android:visibility="gone"
+        app:boxBackgroundColor="@color/teal_700"
+
+        android:hint="Artist">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/artist"
+            android:maxLines="1"
+            android:lines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:id="@+id/albumTIL"
+        android:visibility="gone"
+        app:boxBackgroundColor="@color/teal_700"
+        android:hint="Album">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/album"
+            android:maxLines="1"
+            android:lines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:id="@+id/genreTIL"
+        android:visibility="gone"
+        app:boxBackgroundColor="@color/teal_700"
+
+        android:hint="Genre">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/genre"
+            android:maxLines="1"
+            android:lines="1"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:id="@+id/yearTIL"
+        android:visibility="gone"
+        app:boxBackgroundColor="@color/teal_700"
+
+        android:hint="Year">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/year"
+            android:maxLines="1"
+            android:lines="1"
+            android:maxLength="4"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

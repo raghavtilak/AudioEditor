@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="10dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        style="@style/TextMedium"
+        android:id="@+id/durationTV"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/teal_700"
+        android:text="Duration"/>
+
+    <RelativeLayout
+        android:id="@+id/durationLL"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/durationTV">
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/durationSeekbarTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/teal_700"
+            android:text="1 second"/>
+        <com.google.android.material.slider.RangeSlider
+            android:paddingTop="5dp"
+            android:valueFrom="1"
+            android:valueTo="10"
+            android:stepSize="1"
+            android:layout_below="@+id/durationSeekbarTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/durationSeekbar"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        style="@style/TextMedium"
+        android:id="@+id/curveTV"
+        android:layout_below="@+id/durationLL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/teal_700"
+        android:text="Curve:"/>
+
+
+    <Spinner
+            android:spinnerMode="dropdown"
+            android:entries="@array/curve"
+            style="@style/mySpinnerItemStyle"
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/durationLL"
+            android:layout_toEndOf="@id/curveTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/curveSpinner" />
+    <RelativeLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/curveSpinner">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkOverlap" />
+        <TextView
+            style="@style/TextMedium"
+            android:layout_toEndOf="@+id/checkOverlap"
+            android:textColor="@color/teal_700"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textOverlap"
+            android:text="Overlap"/>
+        <TextView
+            android:layout_toEndOf="@+id/checkOverlap"
+            android:textColor="@color/teal_700"
+            android:layout_below="@+id/textOverlap"
+            style="@style/TextSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Should first stream end overlap with second stream start."/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

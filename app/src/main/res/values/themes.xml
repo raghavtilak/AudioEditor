@@ -1,0 +1,158 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.AudioEditor" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/visby_family</item>
+
+        <item name="android:spinnerItemStyle">@style/mySpinnerItemStyle</item>
+
+    </style>
+
+    <style name="Theme.AudioEditor.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.AudioEditor.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.AudioEditor.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="StyleRoot" parent="Widget.Support.CoordinatorLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:clickable">true</item>
+        <item name="android:fontFamily">@font/visby_family</item>
+    </style>
+
+
+    <style name="FView" parent="Theme.AudioEditor">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:fontFamily">@font/visby_family</item>
+    </style>
+
+    <style name="VWView" parent="Theme.AudioEditor">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">@font/visby_family</item>
+    </style>
+
+    <style name="WView" parent="Theme.AudioEditor">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/visby_family</item>
+    </style>
+
+    <style name="VView" parent="Theme.AudioEditor">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:fontFamily">@font/visby_family</item>
+    </style>
+
+    <style name="LView" parent="Theme.AudioEditor">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/visby_family</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="TxtRgStyle22" parent="Theme.AudioEditor">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorTxt</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/visby_family</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="TxtSemiSmallStyle22" parent="Theme.AudioEditor">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorTxt</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/visby_family</item>
+    </style>
+
+    <style name="ImageTrim" parent="Theme.AudioEditor">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">@font/visby_family</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="CutterTheme" parent="Theme.AudioEditor">
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:fontFamily">@font/visby_family</item>
+
+    </style>
+
+    <style name="TextLarge" parent="TextAppearance.AppCompat.Large">
+
+        <item name="android:fontFamily">@font/visby_family</item>
+    </style>
+    <style name="TextSmall" parent="TextAppearance.AppCompat.Small">
+
+        <item name="android:fontFamily">@font/visby_family</item>
+    </style>
+    <style name="TextMedium" parent="TextAppearance.AppCompat.Medium">
+
+        <item name="android:fontFamily">@font/visby_family</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/TitleTextStyle</item>
+        <item name="colorSurface">@color/purple_700</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/BodyTextStyle</item>
+    </style>
+
+    <style name="ItemColor" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="android:textColor">@color/teal_700</item>
+    </style>
+    <style name="TitleTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/teal_700</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="BodyTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/teal_700</item>
+    </style>
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/teal_200</item>
+        <item name="rippleColor">#ad1457</item>
+    </style>
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#ffffff</item>
+        <item name="rippleColor">#a4a4a4</item>
+    </style>
+
+    <style name="ProgressDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="colorAccent">@color/teal_200</item>
+        <item name="android:textColor">@color/purple_500</item>
+        <item name="android:background">@color/teal_700</item>
+    </style>
+
+    <style name="mySpinnerItemStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textColor">#2DC32D</item>
+    </style>
+</resources>

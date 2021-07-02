@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/teal_700"
+    android:id="@+id/lineartoast">
+
+    <TextView
+        android:padding="2dp"
+        android:textColor="@color/purple_700"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quick Trim: Fast but low accuracy in case of small duration trim. Works best with long duartion trim(>30sec)."/>
+    <TextView
+        android:padding="2dp"
+        android:textColor="@color/purple_700"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Re-encode: Slow but highly accurate in all case, and provides extra functionalities."/>
+</LinearLayout>

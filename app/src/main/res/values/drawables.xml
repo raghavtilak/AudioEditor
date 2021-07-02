@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="grid_line">#8826688e</drawable>
+    <drawable name="notification_template_icon_bg">#3333b5e5</drawable>
+    <drawable name="notification_template_icon_low_bg">#0cffffff</drawable>
+    <drawable name="playback_indicator">#ffff66</drawable>
+    <drawable name="selection_border">#ffffff</drawable>
+    <drawable name="timecode">#ddffffdd</drawable>
+    <drawable name="timecode_shadow">#aa000000</drawable>
+    <drawable name="type_bkgnd_alarm">#88880000</drawable>
+    <drawable name="type_bkgnd_music">#88000000</drawable>
+    <drawable name="type_bkgnd_notification">#88666600</drawable>
+    <drawable name="type_bkgnd_ringtone">#88008888</drawable>
+    <drawable name="type_bkgnd_unsupported">#88cccccc</drawable>
+    <drawable name="waveform_selected">#90cfee</drawable>
+    <drawable name="waveform_unselected">#16658c</drawable>
+    <drawable name="waveform_unselected_bkgnd_overlay">#33000000</drawable>
+</resources>
