@@ -3,7 +3,7 @@
     <color name="purple_200">#FFBB86FC</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="select_color">#9AA8A7A7</color>
+    <color name="select_color">#DD5E5B5B</color>
     <color name="gv_color">#D1D4D6</color>
 
 
@@ -31,7 +31,7 @@
     <!--StatusBar-->
     <color name="purple_700">#005A8D</color>
     <!--CardView-->
-    <color name="teal_200">#DF4769</color>
+    <color name="teal_200">#FF96AD</color>
     <!--Background Activity-->
     <color name="teal_700">#FFF5FD</color>
 

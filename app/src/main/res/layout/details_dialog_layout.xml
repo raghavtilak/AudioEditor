@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <TextView
+        style="@style/TextMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title :"
+        android:textStyle="bold"
+        android:textColor="@color/teal_700"
+        android:padding="5dp"/>
+        <TextView
+            style="@style/TextMedium"
+            android:textColor="@color/select_color"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:padding="5dp"
+            android:id="@+id/title"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/TextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Album :"
+            android:textStyle="bold"
+            android:textColor="@color/teal_700"
+            android:padding="5dp"/>
+        <TextView
+            style="@style/TextMedium"
+            android:textColor="@color/select_color"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="unknown"
+            android:padding="5dp"
+            android:id="@+id/album"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/TextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Artist :"
+            android:textStyle="bold"
+            android:textColor="@color/teal_700"
+            android:padding="5dp"/>
+        <TextView
+            style="@style/TextMedium"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="unkown"
+            android:textColor="@color/select_color"
+            android:padding="5dp"
+            android:id="@+id/artist"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/TextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duartion :"
+            android:textStyle="bold"
+            android:textColor="@color/teal_700"
+            android:padding="5dp"/>
+        <TextView
+            style="@style/TextMedium"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="00:00:00"
+            android:textColor="@color/select_color"
+            android:padding="5dp"
+            android:id="@+id/duration"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/TextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Size :"
+            android:textStyle="bold"
+            android:textColor="@color/teal_700"
+            android:padding="5dp"/>
+        <TextView
+            style="@style/TextMedium"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0 mb"
+            android:textColor="@color/select_color"
+            android:padding="5dp"
+            android:id="@+id/size"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/TextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Modified :"
+            android:textStyle="bold"
+            android:textColor="@color/teal_700"
+            android:padding="5dp"/>
+        <TextView
+            style="@style/TextMedium"
+            android:singleLine="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="12/12/12"
+            android:textColor="@color/select_color"
+            android:padding="5dp"
+            android:id="@+id/date"/>
+    </LinearLayout>
+   
+</LinearLayout>

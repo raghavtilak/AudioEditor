@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -114,10 +115,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 0) {
-            super.onBackPressed();
-        } else {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+
+
+        Log.d("TAG","onbackpressed");
+        Fragment frag=getSupportFragmentManager().findFragmentByTag("musicplayer");
+        if(frag!=null && frag.isVisible()) {
+            Log.d("TAG", "onbackpressed null");
+            getSupportFragmentManager().beginTransaction().remove(frag).commit();
+        }else{
+            Log.d("TAG","onbackpressed pagger");
+            if (viewPager.getCurrentItem() == 0) {
+                super.onBackPressed();
+            } else {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            }
         }
     }
 

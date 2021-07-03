@@ -23,6 +23,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.documentfile.provider.DocumentFile;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,11 +45,11 @@ import java.util.Locale;
 import java.util.Objects;
 
 
-public class MergerActivity extends AppCompatActivity {
+public class MergerActivity extends AppCompatActivity implements DragAdapter.OnPlayButtonClickListener {
 
     String fileType="mp3";
     String processType="join";
-    String curve="exp";
+    String curve="tri";
     int duration=1;
     boolean overlap=false,crossfade=false;
 
@@ -87,7 +89,7 @@ public class MergerActivity extends AppCompatActivity {
         recyclerView.setCanPullUp(false);
         recyclerView.setHasFixedSize(true);
 
-        listAdapter = new DragAdapter(this,selectedVideos,R.layout.videolist_item_lv);
+        listAdapter = new DragAdapter(this,selectedVideos,R.layout.videolist_item_lv,this);
         recyclerView.setAdapter(listAdapter);
 
         final ItemTouchHelper.Callback itemTouchHelperCallback = new SimpleItemTouchHelperCallback(listAdapter);
@@ -169,6 +171,12 @@ public class MergerActivity extends AppCompatActivity {
                 configureOptionDialog();
             }
         });
+        processRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                checkCrossfade.setEnabled(i != R.id.radioMix);
+            }
+        });
         builder.setView(viewInflated);
         builder.setPositiveButton("CONTINUE", new DialogInterface.OnClickListener() {
             @Override
@@ -216,9 +224,16 @@ public class MergerActivity extends AppCompatActivity {
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.configure_dialog_layout, null);
         CheckBox checkOverlap= viewInflated.findViewById(R.id.checkOverlap);
         RangeSlider durationSeekbar= viewInflated.findViewById(R.id.durationSeekbar);
-        Spinner curveSpinner= viewInflated.findViewById(R.id.curveSpinner);
+        RadioGroup radioGroup= viewInflated.findViewById(R.id.radioGroupFade);
         TextView durationTV= viewInflated.findViewById(R.id.durationSeekbarTV);
 
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                checkOverlap.setChecked(i!=R.id.radioNoFade);
+                checkOverlap.setEnabled(i!=R.id.radioNoFade);
+            }
+        });
         durationSeekbar.setLabelFormatter(new LabelFormatter() {
             @NonNull
             @Override
@@ -246,12 +261,10 @@ public class MergerActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                switch(curveSpinner.getSelectedItemPosition()){
-                    case 0:curve="exp";
+                switch(radioGroup.getCheckedRadioButtonId()){
+                    case R.id.radioFade:curve="tri";
                         break;
-                    case 1:curve="log";
-                        break;
-                    case 2:curve="tri";
+                    case R.id.radioNoFade:curve="nofade";
                         break;
                 }
                 overlap=checkOverlap.isChecked();
@@ -586,5 +599,21 @@ public class MergerActivity extends AppCompatActivity {
 
         }
         return fileName;
+    }
+
+    @Override
+    public void onPlayButtonClicked(SongModel s) {
+        Fragment frag=getSupportFragmentManager().findFragmentByTag("musicplayer");
+        if(frag!=null)
+            getSupportFragmentManager().beginTransaction().remove(frag).commit();
+
+        MusicPlayerFragment fragment= new MusicPlayerFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("uri",s.getUri());
+        fragment.setArguments(bundle);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.relativeMerger, fragment,"musicplayer"); // fragment container id in first parameter is the  container(Main layout id) of Activity
+        transaction.addToBackStack(null);  // this will manage backstack
+        transaction.commit();
     }
 }

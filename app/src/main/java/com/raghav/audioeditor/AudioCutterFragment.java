@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -101,18 +102,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
                     InputStream inputStream = getActivity().getContentResolver().openInputStream(Uri.parse(v.getUri()));
                     inputStream.close();
 
-                    Fragment frag=((AppCompatActivity)getActivity()).getSupportFragmentManager().findFragmentByTag("musicplayer");
-                    if(frag!=null)
-                        getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
-
-                    MusicPlayerFragment fragment= new MusicPlayerFragment();
-                    Bundle bundle=new Bundle();
-                    bundle.putString("uri",v.getUri());
-                    fragment.setArguments(bundle);
-                    FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                    transaction.replace(R.id.relativeMerger, fragment,"musicplayer"); // fragment container id in first parameter is the  container(Main layout id) of Activity
-                    transaction.addToBackStack(null);  // this will manage backstack
-                    transaction.commit();
+                    showDetailsDialog(v);
 
                 } catch (Exception e) {
                     Log.w("MY_TAG", "File corresponding to the uri does not exist \n"+e);
@@ -214,7 +204,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
 
         String[] projection = new String[] {
                 MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.DATE_MODIFIED,
                 MediaStore.Audio.Media.SIZE,
@@ -233,7 +223,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
             // Cache column indices.
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
             int nameColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME);
             int dateColumn =
                     cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATE_MODIFIED);
             int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE);
@@ -268,7 +258,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
                 //removing this makes loading incredibly fast
 //                if(chkImgUri(getActivity(),contentUri)){
                 videoArrayList.add(new SongModel(album,artist,name, timeConversion(duration)
-                        ,duration,String.valueOf(date),
+                        ,duration,String.valueOf(date*1000),
                         ((double)Math.round(sizeTomb*100)/100)+" mb",String.valueOf(contentUri)));
 //                }
             }
@@ -438,6 +428,12 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
                 }
 
                 return true;
+
+            case R.id.files:
+
+                getActivity().startActivity(new Intent(getActivity(),AppFiles.class));
+
+                return true;
             default: return false;
         }
     }
@@ -468,4 +464,30 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
 
         return res;
     }
-  }
+
+    private void showDetailsDialog(SongModel s){
+
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity(),R.style.AlertDialogTheme);
+        builder.setTitle("Details");
+        builder.setCancelable(true);
+
+        View viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.details_dialog_layout,null);
+        TextView title= viewInflated.findViewById(R.id.title);
+        TextView album= viewInflated.findViewById(R.id.album);
+        TextView artist= viewInflated.findViewById(R.id.artist);
+        TextView duration= viewInflated.findViewById(R.id.duration);
+        TextView size= viewInflated.findViewById(R.id.size);
+        TextView date= viewInflated.findViewById(R.id.date);
+
+        title.setText(s.getTitle());
+        album.setText(s.getAlbum());
+        artist.setText(s.getArtist());
+        duration.setText(s.getDuration());
+        size.setText(s.getSize());
+        date.setText(s.getDate());
+
+        builder.setView(viewInflated);
+        builder.show();
+    }
+
+}

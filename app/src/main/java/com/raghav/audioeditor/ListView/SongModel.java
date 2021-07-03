@@ -4,9 +4,33 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class SongModel implements Parcelable {
-    private String album, artist, title, duration, size, uri, date;
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    @ColumnInfo(name = "album")
+    private String album;
+    @ColumnInfo(name = "artist")
+    private String artist;
+    @ColumnInfo(name = "title")
+    private String title;
+    @ColumnInfo(name = "duration")
+    private String duration;
+    @ColumnInfo(name = "size")
+    private String size;
+    @ColumnInfo(name = "uri")
+    private String uri;
+    @ColumnInfo(name = "date")
+    private String date;
+    @ColumnInfo(name = "durationLong")
     private long durationLong;
+
 
     public SongModel(String album, String artist,
                      String title, String duration,long durationLong,
@@ -123,6 +147,14 @@ public class SongModel implements Parcelable {
 
     public void setDurationLong(long durationLong) {
         this.durationLong = durationLong;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 

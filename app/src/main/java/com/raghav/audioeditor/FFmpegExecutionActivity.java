@@ -1,8 +1,12 @@
 package com.raghav.audioeditor;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -14,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.room.Room;
 
 import com.arthenica.ffmpegkit.ExecuteCallback;
 import com.arthenica.ffmpegkit.FFmpegKit;
@@ -26,6 +31,7 @@ import com.arthenica.ffmpegkit.SessionState;
 import com.arthenica.ffmpegkit.Statistics;
 import com.arthenica.ffmpegkit.StatisticsCallback;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
+import com.raghav.audioeditor.ListView.SongModel;
 
 import java.math.BigDecimal;
 
@@ -36,7 +42,6 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
     private ImageView actionPlay,actionDelete,share;
     private LinearProgressIndicator progressBar;
     private RelativeLayout relativeInfo,relativeDone;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +64,7 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
         String safuri=getIntent().getStringExtra("safuri");
         long videoLength=getIntent().getLongExtra("videolength",0);
 
-        android.util.Log.d("LENGTH", String.valueOf(videoLength));
+        android.util.Log.d("SAFURI",safuri);
         videoNameBot.setText(filename);
         videoNametop.setText(filename);
 
@@ -81,7 +86,9 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
                             actionPlay.setVisibility(View.VISIBLE);
                             actionDelete.setVisibility(View.VISIBLE);
                             share.setVisibility(View.VISIBLE);
-                            Toast.makeText(FFmpegExecutionActivity.this, "Audio Saved!", Toast.LENGTH_SHORT).show();
+
+                            addToDatabase(safuri);
+                            Toast.makeText(FFmpegExecutionActivity.this, "MediaColumns Saved!", Toast.LENGTH_SHORT).show();
                         } else if (returnCode.isCancel()) {
                             //Toast.makeText(FFmpegExecutionActivity.this, "Merging cancelled!", Toast.LENGTH_SHORT).show();
                             relativeInfo.setVisibility(View.GONE);
@@ -200,5 +207,109 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
         }catch (NullPointerException e){
             return false;
         }
+    }
+
+    private void addToDatabase(String safuri){
+
+        String[] projection = new String[] {
+                MediaStore.MediaColumns._ID,
+                MediaStore.MediaColumns.DISPLAY_NAME,
+                MediaStore.MediaColumns.DURATION,
+                MediaStore.MediaColumns.DATE_MODIFIED,
+                MediaStore.MediaColumns.SIZE,
+                MediaStore.MediaColumns.ALBUM,
+                MediaStore.MediaColumns.ARTIST
+        };
+        Cursor cursor = getContentResolver().query(Uri.parse(safuri), projection, null, null, null);
+        if (cursor != null) {
+            // Cache column indices.
+            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID);
+            int nameColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME);
+            int dateColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED);
+            int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.SIZE);
+            int durationColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DURATION);
+            int artistColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.ARTIST);
+            int albumColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.ALBUM);
+
+            cursor.moveToFirst();
+            long id = cursor.getLong(idColumn);
+            String name = cursor.getString(nameColumn);
+            long duration = cursor.getInt(durationColumn);
+            long date = cursor.getInt(dateColumn);
+            int size = cursor.getInt(sizeColumn);
+            String artist = cursor.getString(artistColumn);
+            String album = cursor.getString(albumColumn);
+            float sizeTomb=size/(1024f*1024f);
+
+            new BackgroundTask(this) {
+                @Override
+                public void doInBackground() {
+                    AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                            AppDatabase.class, "audioeditor").build();
+
+                    SongDao userDao = db.songDao();
+                    userDao.insert(new SongModel(album,artist,name, timeConversion(duration)
+                            ,duration,String.valueOf(date),
+                            ((double)Math.round(sizeTomb*100)/100)+" mb",String.valueOf(safuri)));
+
+                }
+
+                @Override
+                public void onPostExecute() {
+
+                }
+            }.execute();
+
+        }
+    }
+
+    public abstract class BackgroundTask {
+
+        private Activity activity;
+        public BackgroundTask(Activity activity) {
+            this.activity = activity;
+        }
+
+        private void startBackground() {
+            new Thread(new Runnable() {
+                public void run() {
+
+                    doInBackground();
+                    activity.runOnUiThread(new Runnable() {
+                        public void run() {
+
+                            onPostExecute();
+                        }
+                    });
+                }
+            }).start();
+        }
+        public void execute(){
+            startBackground();
+        }
+
+        public abstract void doInBackground();
+        public abstract void onPostExecute();
+
+    }
+
+    public String timeConversion(long value) {
+        String videoTime;
+        int dur = (int) value;
+        int hrs = (dur / 3600000);
+        int mns = (dur / 60000) % 60000;
+        int scs = dur % 60000 / 1000;
+
+        if (hrs > 0) {
+            videoTime = String.format("%02d:%02d:%02d", hrs, mns, scs);
+        } else {
+            videoTime = String.format("%02d:%02d", mns, scs);
+        }
+        return videoTime;
     }
 }

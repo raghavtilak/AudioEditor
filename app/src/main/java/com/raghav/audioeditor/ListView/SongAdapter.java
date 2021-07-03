@@ -49,14 +49,18 @@ public class SongAdapter extends ArrayAdapter<SongModel> {
         SongModel item = songArrayList.get(position);
         TextView songName,albumName;
         ImageView ivPlay;
-        RelativeLayout rlContainer;
         songName = itemView.findViewById(R.id.music_name);
         albumName = itemView.findViewById(R.id.album_name);
-        if(!item.getAlbum().isEmpty()){
-            albumName.setText(item.getAlbum());
+
+        if(item.getAlbum()==null){
+            albumName.setText(item.getSize());
+        }else{
+            if(!item.getAlbum().isEmpty()){
+                albumName.setText(item.getAlbum());
+            }
         }
+
         ivPlay = itemView.findViewById(R.id.play_media_player);
-        rlContainer = itemView.findViewById(R.id.container_music_item);
         ivPlay.setOnClickListener((view) -> {
             musicItemClickListener.onMusicClick(position, item);
         });

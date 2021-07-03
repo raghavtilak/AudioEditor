@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/files"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_insert_drive_file_24"
+        android:title="App files" />
     <item android:id="@+id/changeLayout"
         app:showAsAction="always"
         android:icon="@drawable/ic_action_grid"

@@ -248,4 +248,6 @@ public class MusicPlayerFragment extends Fragment implements SeekBar.OnSeekBarCh
 
     }
 
+
+
 }

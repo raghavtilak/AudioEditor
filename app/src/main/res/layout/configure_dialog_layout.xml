@@ -41,31 +41,51 @@
 
     </RelativeLayout>
 
-    <TextView
-        style="@style/TextMedium"
-        android:id="@+id/curveTV"
-        android:layout_below="@+id/durationLL"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:layout_below="@id/durationLL"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/teal_700"
-        android:text="Curve:"/>
-
-
-    <Spinner
-            android:spinnerMode="dropdown"
-            android:entries="@array/curve"
-            style="@style/mySpinnerItemStyle"
-            android:layout_marginStart="10dp"
-            android:layout_below="@id/durationLL"
-            android:layout_toEndOf="@id/curveTV"
+        android:id="@+id/radioGroupFade"
+        android:checkedButton="@id/radioFade"
+        android:orientation="horizontal">
+        <RadioButton
+            android:textColor="@color/teal_700"
+            android:paddingEnd="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/curveSpinner" />
+            android:text="Fade"
+            android:id="@+id/radioFade"/>
+        <RadioButton
+            android:textColor="@color/teal_700"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No-Fade"
+            android:id="@+id/radioNoFade"/>
+
+    </RadioGroup>
+<!--    <TextView-->
+<!--        style="@style/TextMedium"-->
+<!--        android:id="@+id/curveTV"-->
+<!--        android:layout_below="@+id/durationLL"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textColor="@color/teal_700"-->
+<!--        android:text="Curve:"/>-->
+<!--    <Spinner-->
+<!--            android:spinnerMode="dropdown"-->
+<!--            android:entries="@array/curve"-->
+<!--            style="@style/mySpinnerItemStyle"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_below="@id/durationLL"-->
+<!--            android:layout_toEndOf="@id/curveTV"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/curveSpinner" /> -->
     <RelativeLayout
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/curveSpinner">
+        android:layout_below="@+id/radioGroupFade">
 
         <CheckBox
             android:layout_width="wrap_content"

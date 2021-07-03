@@ -1,5 +1,6 @@
 package com.raghav.audioeditor;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -11,11 +12,13 @@ import android.database.Cursor;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -40,6 +43,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -52,8 +56,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -221,7 +227,17 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
                         addMoreList.clear();
                         isAddMore=0;
                     }
-                }
+                }else{
+                    try {
+                        InputStream inputStream = getActivity().getContentResolver().openInputStream(Uri.parse(videoArrayList.get(i).getUri()));
+                        inputStream.close();
+
+                        showDetailsDialog(videoArrayList.get(i));
+
+                    } catch (Exception e) {
+                        Log.w("MY_TAG", "File corresponding to the uri does not exist \n"+e);
+                        Toast.makeText(getActivity(), "File does not exist!", Toast.LENGTH_SHORT).show();
+                    }                }
             }
         });
         listView.setVisibility(View.VISIBLE);
@@ -333,6 +349,17 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
                         addMoreList.clear();
                         isAddMore=0;
                     }
+                }else{
+                    try {
+                        InputStream inputStream = getActivity().getContentResolver().openInputStream(Uri.parse(videoArrayList.get(i).getUri()));
+                        inputStream.close();
+
+                        showDetailsDialog(videoArrayList.get(i));
+
+                    } catch (Exception e) {
+                        Log.w("MY_TAG", "File corresponding to the uri does not exist \n"+e);
+                        Toast.makeText(getActivity(), "File does not exist!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -370,7 +397,7 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
 
         String[] projection = new String[] {
                 MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.DATE_MODIFIED,
                 MediaStore.Audio.Media.SIZE,
@@ -389,7 +416,7 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
             // Cache column indices.
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
             int nameColumn =
-                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+                    cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME);
             int dateColumn =
                     cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATE_MODIFIED);
             int sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE);
@@ -424,7 +451,7 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
                 //removing this makes loading incredibly fast
 //                if(chkImgUri(getActivity(),contentUri)){
                     videoArrayList.add(new SongModel(album,artist,name, timeConversion(duration)
-                            ,duration,String.valueOf(date),
+                            ,duration,String.valueOf(date*1000),
                             ((double)Math.round(sizeTomb*100)/100)+" mb",String.valueOf(contentUri)));
 //                }
             }
@@ -696,6 +723,11 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
                 }
 
                 return true;
+            case R.id.files:
+
+                getActivity().startActivity(new Intent(getActivity(),AppFiles.class));
+
+                return true;
             default: return false;
         }
     }
@@ -759,5 +791,88 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
             Toast.makeText(getActivity(), "Selected file doesn't exists.", Toast.LENGTH_SHORT).show();
             return false;
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private void showDetailsDialog(SongModel s){
+
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity(),R.style.AlertDialogTheme);
+        builder.setTitle("Details");
+        builder.setCancelable(false);
+
+        View viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.details_dialog_layout,null);
+        TextView title= viewInflated.findViewById(R.id.title);
+        TextView album= viewInflated.findViewById(R.id.album);
+        TextView artist= viewInflated.findViewById(R.id.artist);
+        TextView duration= viewInflated.findViewById(R.id.duration);
+        TextView size= viewInflated.findViewById(R.id.size);
+        TextView date= viewInflated.findViewById(R.id.date);
+
+        title.setText(s.getTitle());
+        album.setText(s.getAlbum());
+        artist.setText(s.getArtist());
+        duration.setText(s.getDuration());
+        size.setText(s.getSize());
+        date.setText(new SimpleDateFormat("dd/MM/yy").format(new Date(Long.parseLong(s.getDate()))));
+
+        Log.d("TAG",s.getDate());
+        builder.setView(viewInflated);
+
+
+
+
+
+        builder.setPositiveButton("Set as RingTone", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if(Settings.System.canWrite(getActivity())) {
+                        try {
+                            RingtoneManager.setActualDefaultRingtoneUri(getActivity(), RingtoneManager.TYPE_RINGTONE, Uri.parse(s.getUri()));
+                            Toast.makeText(getActivity(), "Ringtone Set!!", Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){
+                            Toast.makeText(getActivity(), "Ringtone not set!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        showPermissionWarningDialog();
+                    }
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    private void showPermissionWarningDialog(){
+
+        MaterialAlertDialogBuilder dialogBuilder=new MaterialAlertDialogBuilder(getActivity());
+        dialogBuilder.setTitle("Allow Permission");
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setMessage("Please grant permission to modify system settings." +
+                "\nThis is required by this app in order to set the selected song as your device ringtone.");
+        dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        dialogBuilder.setPositiveButton("GRANT", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent= new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+
+        dialogBuilder.show();
     }
 }

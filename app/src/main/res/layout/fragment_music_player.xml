@@ -35,7 +35,7 @@
                 android:layout_toEndOf="@+id/song_icon"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:text="0 min, 0 sec" />
+                android:text="00:00" />
 
             <ImageView
                 android:id="@+id/play"

@@ -57,4 +57,9 @@
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:text="Merge"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeMerger"
+        android:layout_centerInParent="true"/>
 </RelativeLayout>

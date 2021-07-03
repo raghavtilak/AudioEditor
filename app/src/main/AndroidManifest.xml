@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.raghav.audioeditor">
 
+
+<!--    Permission required for setting Ringtone-->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -16,12 +22,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AudioEditor">
+        <activity android:name=".AppFiles"></activity>
         <activity
             android:name=".CutterUI.ActAudioTrimmer"
             android:configChanges="orientation|screenSize"
             android:theme="@style/CutterTheme" />
-        <activity android:name=".FFmpegExecutionActivity" />
-        <activity android:name=".MergerActivity" />
+        <activity android:name=".FFmpegExecutionActivity"
+            android:configChanges="orientation|screenSize"
+            />
+        <activity android:name=".MergerActivity"
+            android:configChanges="orientation|screenSize"
+            />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

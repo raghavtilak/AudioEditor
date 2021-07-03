@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 tools:ignore="UnknownIdInLayout">
             <LinearLayout
+                android:paddingEnd="30dp"
                 android:id="@+id/infoContainer"
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
