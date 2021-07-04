@@ -88,7 +88,7 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
                             share.setVisibility(View.VISIBLE);
 
                             addToDatabase(safuri);
-                            Toast.makeText(FFmpegExecutionActivity.this, "MediaColumns Saved!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FFmpegExecutionActivity.this, "Audio Saved!", Toast.LENGTH_SHORT).show();
                         } else if (returnCode.isCancel()) {
                             //Toast.makeText(FFmpegExecutionActivity.this, "Merging cancelled!", Toast.LENGTH_SHORT).show();
                             relativeInfo.setVisibility(View.GONE);

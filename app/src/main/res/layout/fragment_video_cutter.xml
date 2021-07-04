@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/teal_700"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp"
     tools:context=".AudioCutterFragment">
-
 
     <ListView
         android:divider="@null"
+        android:dividerHeight="10dp"
         android:layout_centerInParent="true"
         android:paddingTop="10dp"
         android:layout_width="match_parent"
@@ -17,16 +18,19 @@
 
     <GridView
         android:layout_centerInParent="true"
-        android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
         android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/gridView"/>
 
-    <RelativeLayout
+    <LinearLayout
+        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/relativeMerger"
-        android:layout_centerInParent="true"/>
+        android:orientation="vertical"/>
+
+
 </RelativeLayout>

@@ -9,6 +9,7 @@
 
     <ListView
         android:divider="@null"
+        android:dividerHeight="10dp"
         android:layout_centerInParent="true"
         android:paddingTop="10dp"
         android:layout_width="match_parent"

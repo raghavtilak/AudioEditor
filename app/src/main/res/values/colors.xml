@@ -35,6 +35,7 @@
     <!--Background Activity-->
     <color name="teal_700">#FFF5FD</color>
 
+    <color name="item_back">#016BA6</color>
 <!--    093967-->
     <color name="toolbar">#01182E</color>
 

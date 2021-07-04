@@ -58,26 +58,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/txtSongTime"
-                android:layout_toRightOf="@+id/play"
+                android:layout_toEndOf="@+id/play"
                 android:gravity="center_vertical" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/txtSongTime"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:visibility="gone"-->
-<!--                android:layout_alignParentRight="true"-->
-<!--                android:layout_centerVertical="true"-->
-<!--                android:text="0 min, 0 sec " />-->
-
-            <LinearLayout
-                android:id="@+id/mediaLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtStartTime"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"></LinearLayout>
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 
