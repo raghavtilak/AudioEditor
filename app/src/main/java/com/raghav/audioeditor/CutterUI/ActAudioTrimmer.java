@@ -550,25 +550,25 @@ public class ActAudioTrimmer extends AppCompatActivity {
         Log.d("TAG","CREATE FILE");
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        String fileType=getMime(inputUri);
-        // file type
-        if(fileType.equalsIgnoreCase("mp3")){
+//        String fileType=getMime(inputUri);
+//        // file type
+//        if(fileType.equalsIgnoreCase("mp3")){
             intent.setType("audio/mpeg");
             // file name
             intent.putExtra(Intent.EXTRA_TITLE, fileName);
-        }else if(fileType.equalsIgnoreCase("wav")){
-            intent.setType("audio/*");
-            // file name
-            intent.putExtra(Intent.EXTRA_TITLE, fileName+".wav");
-        }else if(fileType.equalsIgnoreCase("m4a")){
-            intent.setType("audio/*");
-            // file name
-            intent.putExtra(Intent.EXTRA_TITLE, fileName+".m4a");
-        }else{
-            intent.setType("audio/"+fileType);
-            // file name
-            intent.putExtra(Intent.EXTRA_TITLE, fileName);
-        }
+//        }else if(fileType.equalsIgnoreCase("wav")){
+//            intent.setType("audio/*");
+//            // file name
+//            intent.putExtra(Intent.EXTRA_TITLE, fileName+".wav");
+//        }else if(fileType.equalsIgnoreCase("m4a")){
+//            intent.setType("audio/*");
+//            // file name
+//            intent.putExtra(Intent.EXTRA_TITLE, fileName+".m4a");
+//        }else{
+//            intent.setType("audio/"+fileType);
+//            // file name
+//            intent.putExtra(Intent.EXTRA_TITLE, fileName);
+//        }
 
         // file name
         intent.putExtra(Intent.EXTRA_TITLE, fileName);

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_margin="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/sortRadio">
+        <RadioButton
+            android:textColor="@color/teal_700"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date(0-9)"
+            android:id="@+id/date09"/>
+        <RadioButton
+            android:textColor="@color/teal_700"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Filename(0-9)"
+            android:id="@+id/filename09"/>
+
+        <RadioButton
+            android:textColor="@color/teal_700"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Size(0-9)"
+            android:id="@+id/size09"/>
+        <RadioButton
+            android:textColor="@color/teal_700"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Duration(0-9)"
+            android:id="@+id/duration09"/>
+        <RadioButton
+            android:textColor="@color/teal_700"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date(9-0)"
+            android:id="@+id/date90"/>
+        <RadioButton
+            android:textColor="@color/teal_700"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Filename(9-0)"
+            android:id="@+id/filename90"/>
+
+        <RadioButton
+            android:textColor="@color/teal_700"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Size(9-0)"
+            android:id="@+id/size90"/>
+        <RadioButton
+            android:textColor="@color/teal_700"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Duration(9-0)"
+            android:id="@+id/duration90"/>
+
+    </RadioGroup>
+</LinearLayout>

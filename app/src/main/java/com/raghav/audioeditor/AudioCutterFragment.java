@@ -43,7 +43,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusicItemClickListener {
+public class AudioCutterFragment extends Fragment
+        implements SongAdapter.OnMusicItemClickListener ,SongAdapter.OnMoreItemClickListener{
 
     private GridView gridView;
     private ListView listView;
@@ -69,7 +70,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
 
         videoArrayList = new ArrayList<>();
 
-        adapter = new SongAdapter(getActivity(), videoArrayList,this);
+        adapter = new SongAdapter(getActivity(), videoArrayList,this,this);
         listView =(ListView) view.findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -96,25 +97,25 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
 
             }
         });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-               removeMusicPlayer();
-                SongModel v=adapter.getItem(i);
-                try {
-                    InputStream inputStream = getActivity().getContentResolver().openInputStream(Uri.parse(v.getUri()));
-                    inputStream.close();
-
-                    showDetailsDialog(v);
-
-                } catch (Exception e) {
-                    Log.w("MY_TAG", "File corresponding to the uri does not exist \n"+e);
-                    Toast.makeText(getActivity(), "File does not exist!", Toast.LENGTH_SHORT).show();
-                }
-
-                return true;
-            }
-        });
+//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//               removeMusicPlayer();
+//                SongModel v=adapter.getItem(i);
+//                try {
+//                    InputStream inputStream = getActivity().getContentResolver().openInputStream(Uri.parse(v.getUri()));
+//                    inputStream.close();
+//
+//                    showDetailsDialog(v);
+//
+//                } catch (Exception e) {
+//                    Log.w("MY_TAG", "File corresponding to the uri does not exist \n"+e);
+//                    Toast.makeText(getActivity(), "File does not exist!", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                return true;
+//            }
+//        });
         listView.setVisibility(View.VISIBLE);
 
         gridView =(GridView) view.findViewById(R.id.gridView);
@@ -306,6 +307,20 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
             videoTime = String.format("%02d:%02d", mns, scs);
         }
         return videoTime;
+    }
+
+    @Override
+    public void onMoreClick(int position, SongModel musicItem) {
+        try {
+            InputStream inputStream = getActivity().getContentResolver().openInputStream(Uri.parse(musicItem.getUri()));
+            inputStream.close();
+
+            showDetailsDialog(musicItem);
+
+        } catch (Exception e) {
+            Log.w("MY_TAG", "File corresponding to the uri does not exist \n"+e);
+            Toast.makeText(getActivity(), "File does not exist!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public abstract class BackgroundTask {

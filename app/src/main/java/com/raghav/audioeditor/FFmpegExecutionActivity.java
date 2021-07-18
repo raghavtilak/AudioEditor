@@ -47,6 +47,7 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
     private LinearProgressIndicator progressBar;
     private RelativeLayout relativeInfo,relativeDone;
     private String processType;
+    private long videoLength;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +68,7 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
         String exe=getIntent().getStringExtra("exe");
         String filename=getIntent().getStringExtra("filename");
         String safuri=getIntent().getStringExtra("safuri");
-        long videoLength=getIntent().getLongExtra("videolength",0);
+        videoLength=getIntent().getLongExtra("videolength",0);
 
         processType=getIntent().getStringExtra("type");
         android.util.Log.d("SAFURI",safuri);
@@ -251,8 +252,8 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
                             AppDatabase.class, "audioeditor").build();
 
                     SongDao userDao = db.songDao();
-                    userDao.insert(new SongModel(album,artist,name, timeConversion(duration)
-                            ,duration,String.valueOf(date),
+                    userDao.insert(new SongModel(album,artist,name, timeConversion(videoLength)
+                            ,videoLength,String.valueOf(System.currentTimeMillis()*1000),
                             ((double)Math.round(sizeTomb*100)/100)+" mb",String.valueOf(safuri)));
 
                 }

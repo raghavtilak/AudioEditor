@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+        <item
+            android:id="@+id/nav_merger"
+            android:icon="@drawable/merge_300_icon"
+            android:title="Merger" />
+        <item
+            android:id="@+id/nav_cutter"
+            android:icon="@drawable/trim_200_icon"
+            android:title="Cutter" />
+        <item
+            android:id="@+id/nav_conv_files"
+            android:icon="@drawable/ic_baseline_insert_drive_file_black_24"
+            android:title="Converted Files" />
+        <item
+            android:id="@+id/nav_share"
+            android:iconTint="@color/white"
+            android:icon="@drawable/ic_baseline_share_24"
+            android:title="Share App" />
+
+</menu>

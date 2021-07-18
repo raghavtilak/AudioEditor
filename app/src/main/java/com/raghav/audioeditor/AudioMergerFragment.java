@@ -54,7 +54,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 
-public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusicItemClickListener {
+public class AudioMergerFragment extends Fragment
+        implements SongAdapter.OnMusicItemClickListener ,SongAdapter.OnMoreItemClickListener{
 
 
     private ArrayList<SongModel> addMoreList;
@@ -108,7 +109,7 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        adapter = new SongAdapter (getActivity(), videoArrayList,this);
+        adapter = new SongAdapter (getActivity(), videoArrayList,this,this);
         listView =(ListView) view.findViewById(R.id.listView);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
@@ -204,7 +205,7 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 removeMusicPlayer();
-                if(isAddMore==1) {
+//                if(isAddMore==1) {
                     boolean exists=true;
 //                    ArrayList<String> videoUris=new ArrayList<>();
                     Uri uri=Uri.parse(videoArrayList.get(i).getUri());
@@ -219,17 +220,7 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
                         addMoreList.clear();
                         isAddMore=0;
                     }
-                }else{
-                    try {
-                        InputStream inputStream = getActivity().getContentResolver().openInputStream(Uri.parse(videoArrayList.get(i).getUri()));
-                        inputStream.close();
-
-                        showDetailsDialog(videoArrayList.get(i));
-
-                    } catch (Exception e) {
-                        Log.w("MY_TAG", "File corresponding to the uri does not exist \n"+e);
-                        Toast.makeText(getActivity(), "File does not exist!", Toast.LENGTH_SHORT).show();
-                    }                }
+//                }
             }
         });
         listView.setVisibility(View.VISIBLE);
@@ -600,6 +591,20 @@ public class AudioMergerFragment extends Fragment implements SongAdapter.OnMusic
             videoTime = String.format("%02d:%02d", mns, scs);
         }
         return videoTime;
+    }
+
+    @Override
+    public void onMoreClick(int position, SongModel musicItem) {
+        try {
+            InputStream inputStream = getActivity().getContentResolver().openInputStream(Uri.parse(musicItem.getUri()));
+            inputStream.close();
+
+            showDetailsDialog(musicItem);
+
+        } catch (Exception e) {
+            Log.w("MY_TAG", "File corresponding to the uri does not exist \n"+e);
+            Toast.makeText(getActivity(), "File does not exist!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

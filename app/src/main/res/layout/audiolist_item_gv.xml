@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 tools:ignore="UnknownIdInLayout">
             <LinearLayout
-                android:paddingEnd="30dp"
+                android:paddingEnd="65dp"
                 android:id="@+id/infoContainer"
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
@@ -56,14 +56,24 @@
                     android:text="unknown"/>
             </LinearLayout>
 
-            <ImageView
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/play_media_player"
-                android:scaleType="fitEnd"
-                android:src="@drawable/play"/>
+                <ImageView
+                    android:layout_marginEnd="5dp"
+                    android:layout_toStartOf="@+id/more_items"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/play_media_player"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/play"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/more_items"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_baseline_more_vert_24"/>
             </RelativeLayout>
         </RelativeLayout>
 
