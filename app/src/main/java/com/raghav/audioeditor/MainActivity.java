@@ -74,15 +74,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(titles[position])).attach();
         }
 
-        SharedPreferences settings=getSharedPreferences(PREF_FILE,MODE_PRIVATE);
-        boolean dialogShown=settings.getBoolean("dialogShown",false);
-        if(!dialogShown){
-            SharedPreferences.Editor editor=settings.edit();
-            editor.putBoolean("dialogShown",true);
-            editor.apply();
-
-            showHelpDialog();
-        }
+//        SharedPreferences settings=getSharedPreferences(PREF_FILE,MODE_PRIVATE);
+//        boolean dialogShown=settings.getBoolean("dialogShown",false);
+//        if(!dialogShown){
+//            SharedPreferences.Editor editor=settings.edit();
+//            editor.putBoolean("dialogShown",true);
+//            editor.apply();
+//
+//            showHelpDialog();
+//        }
 
 //        startActivity(new Intent(this,ScreenActivity.class));
     }

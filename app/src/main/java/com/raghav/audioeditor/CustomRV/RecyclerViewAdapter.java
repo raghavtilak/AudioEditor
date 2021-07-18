@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //    private OnClickListener onClickListener;
     private OnPlayButtonClickListener playButtonClickListener;
     private int layoutId;
+
+    private RelativeLayout.LayoutParams params;
+
+
     /**
      * Can be used when loading more
      *
@@ -59,6 +64,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //        this.onClickListener=onClickListener;
         this.playButtonClickListener=playButtonClickListener;
         this.layoutId=layoutId;
+        params=new RelativeLayout.LayoutParams(75,75);
+        params.addRule(RelativeLayout.ALIGN_PARENT_END);
+        params.addRule(RelativeLayout.CENTER_VERTICAL);
+
     }
 
     @Override
@@ -79,6 +88,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
         holder.duration.setText(v.getDuration());
+        holder.ivDetails.setVisibility(View.GONE);
+        holder.iv.setLayoutParams(params);
 //        Glide.with(context)
 //                .load(v.getUri())
 //                .override(200,200)
@@ -126,11 +137,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder{
         private TextView textView,duration;
-        private ImageView iv;
+        private ImageView iv,ivDetails;
 
         public ViewHolder(View itemView) {
             super(itemView);
             iv = (ImageView) itemView.findViewById(R.id.play_media_player);
+            ivDetails = (ImageView) itemView.findViewById(R.id.more_items);
+
             textView = (TextView) itemView.findViewById(R.id.music_name);
             duration = (TextView) itemView.findViewById(R.id.album_name);
 
