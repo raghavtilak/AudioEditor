@@ -1,5 +1,6 @@
 package com.raghav.audioeditor;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -8,10 +9,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -40,8 +44,10 @@ import com.raghav.audioeditor.ListView.SongModel;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 
 public class AudioCutterFragment extends Fragment
         implements SongAdapter.OnMusicItemClickListener ,SongAdapter.OnMoreItemClickListener{
@@ -419,11 +425,12 @@ public class AudioCutterFragment extends Fragment
         return res;
     }
 
+    @SuppressLint("SimpleDateFormat")
     private void showDetailsDialog(SongModel s){
 
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity(),R.style.DetailsAlertDialogTheme);
         builder.setTitle("Details");
-        builder.setCancelable(true);
+        builder.setCancelable(false);
 
         View viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.details_dialog_layout,null);
         TextView title= viewInflated.findViewById(R.id.title);
@@ -438,10 +445,67 @@ public class AudioCutterFragment extends Fragment
         artist.setText(s.getArtist());
         duration.setText(s.getDuration());
         size.setText(s.getSize());
-        date.setText(s.getDate());
+        date.setText(new SimpleDateFormat("dd/MM/yy").format(new Date(Long.parseLong(s.getDate()))));
 
+        Log.d("TAG",s.getDate());
         builder.setView(viewInflated);
+
+
+
+
+
+        builder.setPositiveButton("Set as RingTone", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if(Settings.System.canWrite(getActivity())) {
+                        try {
+                            RingtoneManager.setActualDefaultRingtoneUri(getActivity(), RingtoneManager.TYPE_RINGTONE, Uri.parse(s.getUri()));
+                            Toast.makeText(getActivity(), "Ringtone Set!!", Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){
+                            Toast.makeText(getActivity(), "Ringtone not set!", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        showPermissionWarningDialog();
+                    }
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
         builder.show();
+    }
+
+    private void showPermissionWarningDialog(){
+
+        MaterialAlertDialogBuilder dialogBuilder=new MaterialAlertDialogBuilder(getActivity());
+        dialogBuilder.setTitle("Allow Permission");
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setMessage("Please grant permission to modify system settings." +
+                "\nThis is required by this app in order to set the selected song as your device ringtone.");
+        dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        dialogBuilder.setPositiveButton("GRANT", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent= new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+
+        dialogBuilder.show();
     }
 
     private void sortDialog(){
