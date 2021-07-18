@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +65,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_video_cutter, container, false);
+        View view=inflater.inflate(R.layout.fragment_audio_cutter, container, false);
 
         videoArrayList = new ArrayList<>();
 
@@ -73,6 +74,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+               removeMusicPlayer();
                 SongModel v=adapter.getItem(i);
 //                        startActivity(new Intent(getActivity(),CutterActivity.class)
 //                                                .putExtra("uri",v.getFileUri().toString()));
@@ -97,6 +99,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+               removeMusicPlayer();
                 SongModel v=adapter.getItem(i);
                 try {
                     InputStream inputStream = getActivity().getContentResolver().openInputStream(Uri.parse(v.getUri()));
@@ -119,6 +122,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+               removeMusicPlayer();
                 SongModel v=adapter.getItem(i);
 //                        startActivity(new Intent(getActivity(),CutterActivity.class)
 //                                                .putExtra("uri",v.getFileUri().toString()));
@@ -140,6 +144,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+               removeMusicPlayer();
                 SongModel v=adapter.getItem(i);
                 try {
                     InputStream inputStream = getActivity().getContentResolver().openInputStream(Uri.parse(v.getUri()));
@@ -340,88 +345,22 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        removeMusicPlayer();
         switch (item.getItemId()){
             case R.id.sort:
-                ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(getActivity(),
-                        R.array.sort,android.R.layout.select_dialog_singlechoice);
-                MaterialAlertDialogBuilder dialogBuilder=new MaterialAlertDialogBuilder(getActivity(),R.style.AlertDialogTheme);
-                dialogBuilder.setTitle("Sort");
-                dialogBuilder.setSingleChoiceItems(sortAdapter, 4, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i){
-                            case 0:
-                                Comparator<SongModel> compareByDate=(SongModel v1, SongModel v2)->
-                                        v1.getDate().compareTo(v2.getDate());
-                                adapter.sort(compareByDate);
-                                break;
-                            case 1:
-                                Comparator<SongModel> compareByFilename=(SongModel v1,SongModel v2)->
-                                        v1.getTitle().compareTo(v2.getTitle());
-//                                Collections.sort(videoArrayList,compareByFilename);
-                                adapter.sort(compareByFilename);
-//                                adapter.setList(videoArrayList);
-//                                adapter.notifyDataSetChanged();
-                                break;
-                            case 2:
-                                Comparator<SongModel> compareBySize=(SongModel v1,SongModel v2)->
-                                        v1.getSize().compareTo(v2.getSize());
-//                                Collections.sort(videoArrayList,compareBySize);
-                                adapter.sort(compareBySize);
-                                break;
-                            case 3:
-                                Comparator<SongModel> compareByDuration=(SongModel v1,SongModel v2)->
-                                        v1.getDuration().compareTo(v2.getDuration());
-//                                Collections.sort(videoArrayList,compareByDuration);
-                                adapter.sort(compareByDuration);
-                                break;
-                            case 4:
-                                compareByDate=(SongModel v1,SongModel v2)->
-                                        v1.getDate().compareTo(v2.getDate());
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    adapter.sort(compareByDate.reversed());
-                                }
-                                break;
-                            case 5:
-                                compareByFilename = (SongModel v1, SongModel v2) ->
-                                        v1.getTitle().compareTo(v2.getTitle());
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                                    Collections.sort(videoArrayList,compareByFilename.reversed());
-                                    adapter.sort(compareByFilename.reversed());
-                                }
-                                break;
-                            case 6:
-                                compareBySize = (SongModel v1, SongModel v2) ->
-                                        v1.getSize().compareTo(v2.getSize());
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                                    Collections.sort(videoArrayList,compareBySize.reversed());
-                                    adapter.sort(compareBySize.reversed());
-                                }
-                                break;
-                            case 7:
-                                compareByDuration = (SongModel v1, SongModel v2) ->
-                                        v1.getDuration().compareTo(v2.getDuration());
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                                    Collections.sort(videoArrayList,compareByDuration.reversed());
-                                    adapter.sort(compareByDuration.reversed());
-                                }
-                                break;
-                        }
-                    }
-                });
-                dialogBuilder.show();
+                sortDialog();
                 return true;
             case R.id.changeLayout:
 
                 if(gridView.getVisibility()==View.VISIBLE){
                     gridView.setVisibility(View.GONE);
-                    adapter.setItemView(R.layout.videolist_item_lv);
+                    adapter.setItemView(R.layout.audiolist_item_lv);
                     listView.setAdapter(adapter);
                     listView.setVisibility(View.VISIBLE);
                     item.setIcon((R.drawable.ic_action_grid));
                 }else{
                     listView.setVisibility(View.GONE);
-                    adapter.setItemView(R.layout.videolist_item_gv);
+                    adapter.setItemView(R.layout.audiolist_item_gv);
                     gridView.setAdapter(adapter);
                     gridView.setVisibility(View.VISIBLE);
                     item.setIcon((R.drawable.ic_action_list));
@@ -467,7 +406,7 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
 
     private void showDetailsDialog(SongModel s){
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity(),R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity(),R.style.DetailsAlertDialogTheme);
         builder.setTitle("Details");
         builder.setCancelable(true);
 
@@ -490,4 +429,95 @@ public class AudioCutterFragment extends Fragment implements SongAdapter.OnMusic
         builder.show();
     }
 
+    private void sortDialog(){
+//        ArrayAdapter<CharSequence> sortAdapter = ArrayAdapter.createFromResource(getActivity(),
+//                R.array.sort,android.R.layout.select_dialog_singlechoice);
+        MaterialAlertDialogBuilder dialogBuilder=new MaterialAlertDialogBuilder(getActivity(),R.style.AlertDialogTheme);
+        dialogBuilder.setTitle("Sort");
+        View viewInflated = LayoutInflater.from(getActivity()).inflate(R.layout.sort_dialog_layout, null);
+        RadioGroup radioGroup=viewInflated.findViewById(R.id.sortRadio);
+
+        dialogBuilder.setView(viewInflated);
+
+        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (radioGroup.getCheckedRadioButtonId()){
+                    case R.id.date09:
+                        Comparator<SongModel> compareByDate=(SongModel v1,SongModel v2)->
+                                v1.getDate().compareTo(v2.getDate());
+                        adapter.sort(compareByDate);
+                        break;
+                    case R.id.filename09:
+                        Comparator<SongModel> compareByFilename=(SongModel v1,SongModel v2)->
+                                v1.getTitle().compareTo(v2.getTitle());
+//                                Collections.sort(videoArrayList,compareByFilename);
+                        adapter.sort(compareByFilename);
+//                                adapter.setList(videoArrayList);
+//                                adapter.notifyDataSetChanged();
+                        break;
+                    case R.id.size09:
+                        Comparator<SongModel> compareBySize=(SongModel v1,SongModel v2)->
+                                v1.getSize().compareTo(v2.getSize());
+//                                Collections.sort(videoArrayList,compareBySize);
+                        adapter.sort(compareBySize);
+                        break;
+                    case R.id.duration09:
+                        Comparator<SongModel> compareByDuration=(SongModel v1,SongModel v2)->
+                                v1.getDuration().compareTo(v2.getDuration());
+//                                Collections.sort(videoArrayList,compareByDuration);
+                        adapter.sort(compareByDuration);
+                        break;
+                    case R.id.date90:
+                        compareByDate=(SongModel v1,SongModel v2)->
+                                v1.getDate().compareTo(v2.getDate());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            adapter.sort(compareByDate.reversed());
+                        }
+                        break;
+                    case R.id.filename90:
+                        compareByFilename = (SongModel v1, SongModel v2) ->
+                                v1.getTitle().compareTo(v2.getTitle());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                                    Collections.sort(videoArrayList,compareByFilename.reversed());
+                            adapter.sort(compareByFilename.reversed());
+                        }
+                        break;
+                    case R.id.size90:
+                        compareBySize = (SongModel v1, SongModel v2) ->
+                                v1.getSize().compareTo(v2.getSize());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                                    Collections.sort(videoArrayList,compareBySize.reversed());
+                            adapter.sort(compareBySize.reversed());
+                        }
+                        break;
+                    case R.id.duration90:
+                        compareByDuration = (SongModel v1, SongModel v2) ->
+                                v1.getDuration().compareTo(v2.getDuration());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                                    Collections.sort(videoArrayList,compareByDuration.reversed());
+                            adapter.sort(compareByDuration.reversed());
+                        }
+                        break;
+                }
+            }
+        });
+
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        })      ;
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.show();
+    }
+
+    private void removeMusicPlayer(){
+        Fragment frag=getActivity().getSupportFragmentManager().findFragmentByTag("musicplayer");
+        if(frag!=null && frag.isVisible()) {
+            Log.d("TAG", "onbackpressed null");
+            getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
+        }
+    }
 }

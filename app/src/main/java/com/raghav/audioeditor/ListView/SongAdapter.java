@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +16,7 @@ import com.raghav.audioeditor.R;
 
 import java.util.ArrayList;
 
-public class SongAdapter extends ArrayAdapter<SongModel> {
+public class SongAdapter extends ArrayAdapter<SongModel> implements Filterable {
 
     private ArrayList<SongModel> songArrayList;
     private Context context;
@@ -28,7 +28,7 @@ public class SongAdapter extends ArrayAdapter<SongModel> {
         super(context,0, songArrayList);
         this.context=context;
         this.songArrayList=songArrayList;
-        itemLayoutId=R.layout.videolist_item_lv;
+        itemLayoutId=R.layout.audiolist_item_lv;
         this.musicItemClickListener=onMusicItemClickListener;
     }
     public void setItemView(int layoutId) {
@@ -56,7 +56,7 @@ public class SongAdapter extends ArrayAdapter<SongModel> {
             albumName.setText(item.getSize());
         }else{
             if(!item.getAlbum().isEmpty()){
-                albumName.setText(item.getAlbum());
+                albumName.setText(item.getDuration());
             }
         }
 

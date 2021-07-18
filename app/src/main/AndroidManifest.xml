@@ -25,9 +25,11 @@
         <activity android:name=".AppFiles"></activity>
         <activity
             android:name=".CutterUI.ActAudioTrimmer"
+            android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize"
             android:theme="@style/CutterTheme" />
         <activity android:name=".FFmpegExecutionActivity"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"
             />
         <activity android:name=".MergerActivity"

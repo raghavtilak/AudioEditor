@@ -15,7 +15,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +25,7 @@ import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.arthenica.ffmpegkit.FFmpegKitConfig;
@@ -37,6 +37,9 @@ import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.RangeSlider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.raghav.audioeditor.CustomRV.EqualSpacingItemDecoration;
+import com.raghav.audioeditor.CustomRV.ItemTouchHelperCallback;
+import com.raghav.audioeditor.CustomRV.RecyclerViewAdapter;
 import com.raghav.audioeditor.ListView.SongModel;
 
 import java.util.ArrayList;
@@ -45,7 +48,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 
-public class MergerActivity extends AppCompatActivity implements DragAdapter.OnPlayButtonClickListener {
+public class MergerActivity extends AppCompatActivity implements RecyclerViewAdapter.OnPlayButtonClickListener {
 
     String fileType="mp3";
     String processType="join";
@@ -57,14 +60,12 @@ public class MergerActivity extends AppCompatActivity implements DragAdapter.OnP
     private static final int WRITE_REQUEST_CODE = 111;
     private static final int FOLDER_REQUEST_CODE = 123;
     private long finalVideoLength=0;
-    private int fps,height,width,quality;
-    private ArrayList<SongModel> selectedUris;
     private ArrayList<SongModel> selectedVideos;
-    private PullRecyclerView recyclerView;
-    private ItemTouchHelper mItemTouchHelper;
+    private RecyclerView recyclerView;
     private Button mergebtn;
     private ImageButton addMorebtn;
-    private DragAdapter listAdapter;
+//    private DragAdapter listAdapter;
+    private RecyclerViewAdapter adapter;
     //false->landscape
     private final boolean orientation=false;
 
@@ -85,31 +86,25 @@ public class MergerActivity extends AppCompatActivity implements DragAdapter.OnP
 //        getAllVideoDetailsFromUri();
 
         recyclerView = findViewById(R.id.rv_list);
-        recyclerView.setCanPullDown(false);
-        recyclerView.setCanPullUp(false);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
-        listAdapter = new DragAdapter(this,selectedVideos,R.layout.videolist_item_lv,this);
-        recyclerView.setAdapter(listAdapter);
+        adapter = new RecyclerViewAdapter(this,selectedVideos,R.layout.audiolist_item_lv,this);
+        ItemTouchHelperCallback helperCallback=new ItemTouchHelperCallback(adapter);
+        helperCallback.setSwipeEnable(true);
+        helperCallback.setDragEnable(true);
+        ItemTouchHelper itemTouchHelper=new ItemTouchHelper(helperCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(adapter);
 
-        final ItemTouchHelper.Callback itemTouchHelperCallback = new SimpleItemTouchHelperCallback(listAdapter);
-        mItemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
-        listAdapter.setOnStartDragListener(new OnStartDragListener() {
-            @Override
-            public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-                Log.d("VM LIST:","onStartDrag");
-                mItemTouchHelper.startDrag(viewHolder);
+        recyclerView.addItemDecoration(new EqualSpacingItemDecoration(16, EqualSpacingItemDecoration.VERTICAL)); // 16px. In practice, you'll want to use getDimensionPixelSize
 
-            }
-        });
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
 
         mergebtn= findViewById(R.id.merge);
         mergebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(listAdapter.getDatas().size()>=2)
+                if(adapter.getData().size()>=2)
                     mergeOptionDialog();
                 else
                     Toast.makeText(MergerActivity.this, "Please choose at least 2 files to merge.", Toast.LENGTH_SHORT).show();
@@ -124,7 +119,7 @@ public class MergerActivity extends AppCompatActivity implements DragAdapter.OnP
 
                 Intent intent=new Intent();
                 intent.putExtra("addmore",1);
-                intent.putParcelableArrayListExtra("videolist",new ArrayList<>(listAdapter.getDatas()));
+                intent.putParcelableArrayListExtra("videolist",new ArrayList<>(adapter.getData()));
                 setResult(AudioMergerFragment.RESULT_CODE,intent);
                 finish();
             }
@@ -409,7 +404,7 @@ public class MergerActivity extends AppCompatActivity implements DragAdapter.OnP
         StringBuilder concate=new StringBuilder();
 
         int i=0;
-        List<SongModel> finalList=listAdapter.getDatas();
+        List<SongModel> finalList=adapter.getData();
 
         for (i = 0; i < finalList.size(); i++) {
             SongModel s = finalList.get(i);
@@ -485,6 +480,7 @@ public class MergerActivity extends AppCompatActivity implements DragAdapter.OnP
         Log.d("QUERY",exe);
         startActivity(new Intent(this,FFmpegExecutionActivity.class)
                 .putExtra("exe",exe)
+                .putExtra("type","Merging")
                 .putExtra("filename",fileName)
                 .putExtra("videolength",finalVideoLength)
                 .putExtra("safuri",String.valueOf(safuri)));

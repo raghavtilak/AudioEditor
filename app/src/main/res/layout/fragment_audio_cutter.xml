@@ -7,7 +7,16 @@
     android:padding="5dp"
     tools:context=".AudioCutterFragment">
 
+    <EditText
+        android:visibility="gone"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/textViewSearch"/>
+
     <ListView
+        android:layout_below="@id/textViewSearch"
         android:divider="@null"
         android:dividerHeight="10dp"
         android:layout_centerInParent="true"
@@ -17,6 +26,7 @@
         android:id="@+id/listView"/>
 
     <GridView
+        android:layout_below="@id/textViewSearch"
         android:layout_centerInParent="true"
         android:horizontalSpacing="10dp"
         android:verticalSpacing="10dp"

@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             >
     <ImageView
+        android:scaleType="fitCenter"
         android:layout_margin="25dp"
         android:src="@drawable/trim_200_icon"
         android:layout_width="match_parent"
@@ -29,31 +30,33 @@
                 style="@style/TextMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_centerHorizontal="true"
-                android:text="Cut Video"
+                android:text="Cut Audio"
                 android:textColor="@color/purple_700"
                 android:textStyle="bold" />
         </RelativeLayout>
-    <RelativeLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <ImageView
-        android:src="@drawable/merge_300_icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/merge"/>
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <ImageView
+                android:scaleType="fitCenter"
+                android:layout_margin="25dp"
+                android:src="@drawable/merge_300_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/merge"/>
 
-        <TextView
-            style="@style/TextMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/merge"
-            android:layout_centerInParent="true"
-            android:text="Merge Videos"
-            android:textColor="@color/purple_700"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            <TextView
+                android:layout_below="@+id/merge"
+                style="@style/TextMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Merge Audio"
+                android:textColor="@color/purple_700"
+                android:textStyle="bold" />
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

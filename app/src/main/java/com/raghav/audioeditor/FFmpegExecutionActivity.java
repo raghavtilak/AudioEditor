@@ -1,15 +1,18 @@
 package com.raghav.audioeditor;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +33,7 @@ import com.arthenica.ffmpegkit.Session;
 import com.arthenica.ffmpegkit.SessionState;
 import com.arthenica.ffmpegkit.Statistics;
 import com.arthenica.ffmpegkit.StatisticsCallback;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.raghav.audioeditor.ListView.SongModel;
 
@@ -42,6 +46,7 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
     private ImageView actionPlay,actionDelete,share;
     private LinearProgressIndicator progressBar;
     private RelativeLayout relativeInfo,relativeDone;
+    private String processType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +69,7 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
         String safuri=getIntent().getStringExtra("safuri");
         long videoLength=getIntent().getLongExtra("videolength",0);
 
+        processType=getIntent().getStringExtra("type");
         android.util.Log.d("SAFURI",safuri);
         videoNameBot.setText(filename);
         videoNametop.setText(filename);
@@ -92,7 +98,7 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
                         } else if (returnCode.isCancel()) {
                             //Toast.makeText(FFmpegExecutionActivity.this, "Merging cancelled!", Toast.LENGTH_SHORT).show();
                             relativeInfo.setVisibility(View.GONE);
-                            doneTextView.setText("Merging Cancelled!");
+                            doneTextView.setText(processType+" Cancelled!");
                             doneTextView.setCompoundDrawables(null,getResources().getDrawable(R.drawable.ic_baseline_error_outline_24),null,null);
                             relativeDone.setVisibility(View.VISIBLE);
 
@@ -135,7 +141,7 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             if (percentage != null) {
-                                percentage.setText(String.format("Encoding audio: %% %s.", completePercentage));
+                                percentage.setText(String.format(processType+" audio: %% %s.", completePercentage));
                             }
                             progressBar.setProgress(Integer.parseInt(completePercentage));
                         }
@@ -147,7 +153,7 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FFmpegKit.cancel(session.getSessionId());
+                cancelDialog(session);
             }
         });
 
@@ -172,17 +178,9 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
         actionDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FFmpegKit.cancel(session.getSessionId());
-                if(deleteFile(Uri.parse(safuri))){
-                    Toast.makeText(FFmpegExecutionActivity.this, "File deleted.", Toast.LENGTH_SHORT).show();
-                    actionPlay.setVisibility(View.GONE);
-                    actionDelete.setVisibility(View.GONE);
-                    share.setVisibility(View.GONE);
 
-                    videoNametop.setText("File deleted successfully!!");
-                }else{
-                    Toast.makeText(FFmpegExecutionActivity.this, "Error deleting file.", Toast.LENGTH_SHORT).show();
-                }
+                deleteDialog(session,safuri);
+
             }
         });
         share.setOnClickListener(new View.OnClickListener() {
@@ -297,6 +295,57 @@ public class FFmpegExecutionActivity extends AppCompatActivity {
         public abstract void onPostExecute();
 
     }
+
+    private void deleteDialog(FFmpegSession session, String safuri){
+        MaterialAlertDialogBuilder dialogBuilder=new MaterialAlertDialogBuilder(this,R.style.AlertDialogTheme);
+        dialogBuilder.setTitle("Are you sure?");
+        dialogBuilder.setMessage("Are you sure want to delete the file?");
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FFmpegKit.cancel(session.getSessionId());
+                if(deleteFile(Uri.parse(safuri))){
+                    Toast.makeText(FFmpegExecutionActivity.this, "File deleted.", Toast.LENGTH_SHORT).show();
+                    actionPlay.setVisibility(View.GONE);
+                    actionDelete.setVisibility(View.GONE);
+                    share.setVisibility(View.GONE);
+
+                    videoNametop.setText("File deleted successfully!!");
+                }else{
+                    Toast.makeText(FFmpegExecutionActivity.this, "Error deleting file.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialogBuilder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dialogBuilder.show();
+    }
+
+    private void cancelDialog(FFmpegSession session){
+        MaterialAlertDialogBuilder dialogBuilder=new MaterialAlertDialogBuilder(this,R.style.AlertDialogTheme);
+        dialogBuilder.setTitle("Are you sure?");
+        dialogBuilder.setMessage("Are you sure want to cancel the encoding?");
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FFmpegKit.cancel(session.getSessionId());
+            }
+        });
+        dialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialogBuilder.show();
+    }
+
 
     public String timeConversion(long value) {
         String videoTime;

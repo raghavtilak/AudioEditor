@@ -1,5 +1,6 @@
 package com.raghav.audioeditor.CutterUI;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -131,6 +132,7 @@ public class ActAudioTrimmer extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setUpToolBar(getSupportActionBar(), getString(R.string.txt_edt_video));
         toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.getNavigationIcon().setTint(getResources().getColor(R.color.white));
         //  progressView = new CustomProgressView(this);
     }
 
@@ -606,7 +608,7 @@ public class ActAudioTrimmer extends AppCompatActivity {
 //        ffmpeg -ss 00:02:43.00 -t 00:00:10 -i input.mp3 -codec:a libmp3lame out.mp3
 
         String input=FFmpegKitConfig.getSafParameterForRead(this,inputUri);
-        long finalVideoLength=(lastMaxValue*100-lastMinValue*1000);
+        long finalVideoLength=(lastMaxValue*1000-lastMinValue*1000);
 
         StringBuilder metadata=new StringBuilder(" ");
         metadata.append(" -metadata title=\"").append(title).append("\" -metadata artist=\"").append(artist)
@@ -621,6 +623,7 @@ public class ActAudioTrimmer extends AppCompatActivity {
         Log.d("QUERY",exe);
         startActivity(new Intent(this,FFmpegExecutionActivity.class)
                 .putExtra("exe",exe)
+                .putExtra("type","Trimming")
                 .putExtra("filename",fileName)
                 .putExtra("videolength",finalVideoLength)
                 .putExtra("safuri",String.valueOf(safuri)));
@@ -656,7 +659,13 @@ public class ActAudioTrimmer extends AppCompatActivity {
     }
 
     private void setWaveForm(Uri uri){
-        File file=getFilesDir();
+        ProgressDialog progressDialog=new ProgressDialog(this,R.style.ProgressDialog);
+        progressDialog.setMessage("Generating Waveform..");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        File file=getCacheDir();
         File image=new File(file,System.currentTimeMillis()+".png");
 
         String path = FFmpegKitConfig.getSafParameterForRead(ActAudioTrimmer.this, uri);
@@ -674,7 +683,8 @@ public class ActAudioTrimmer extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (returnCode.isSuccess()) {
-                            Toast.makeText(ActAudioTrimmer.this, "Waveform created", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(ActAudioTrimmer.this, "Waveform created", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                             Bitmap bitmap=BitmapFactory.decodeFile(image.getAbsolutePath());
 //                            seekbar.setBackground(Drawable.createFromPath(image.getAbsolutePath()));
                             imageWaveform.setImageBitmap(bitmap);
@@ -682,7 +692,10 @@ public class ActAudioTrimmer extends AppCompatActivity {
                         } else if (returnCode.isCancel()) {
 
                         } else {
+                            progressDialog.dismiss();
+
                             Toast.makeText(ActAudioTrimmer.this, "Something Went Wrong!", Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });

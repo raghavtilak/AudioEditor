@@ -136,18 +136,22 @@ public class MusicPlayerFragment extends Fragment implements SeekBar.OnSeekBarCh
                         m.pause();
 //                        btn_start_audio.setText("time out");
                         Log.d("TAG","Pause");
+                        btn_start_audio.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.play));
                         flage = true;//flage is marked as ture
                     } else if (flage) {
                         m.start();//Start playing first
                         m.seekTo(time);//Set where to start playing
                         Log.d("TAG","Play after pause");
 //                        btn_start_audio.setText("Play");
+                        btn_start_audio.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_baseline_pause_circle_filled_24));
                         flage = false;
                     } else {
                         m.reset();//Restore to uninitialized state
                         m = MediaPlayer.create(getActivity().getApplicationContext(), Uri.parse(uri));//Read audio
                         audio_seekBar.setMax(m.getDuration());//Set the length of SeekBar
                         m.start();
+                        btn_start_audio.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_baseline_pause_circle_filled_24));
+
 //                        if(m!=null){
 //                            m.stop();
 //                        }
@@ -168,6 +172,8 @@ public class MusicPlayerFragment extends Fragment implements SeekBar.OnSeekBarCh
                     thread = new Thread(new SeekBarThread());
                     // start thread
                     thread.start();
+                    Log.d("TAG","start thread");
+
                     break;
 //                case R.id.Button02:
 //                    m.stop();

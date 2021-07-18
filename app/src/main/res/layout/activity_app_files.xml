@@ -3,27 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/teal_700"
     tools:context=".AppFiles">
 
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appbarlayout">
+
+        <androidx.appcompat.widget.Toolbar
+            app:title="Converted Files"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="noScroll"
+            app:titleTextColor="@color/teal_700"
+            android:id="@+id/toolbar"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ListView
+        android:layout_below="@id/appbarlayout"
+        android:layout_margin="10dp"
         android:divider="@null"
         android:dividerHeight="10dp"
-        android:layout_centerInParent="true"
         android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listView"/>
 
-    <GridView
-        android:layout_centerInParent="true"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
-        android:paddingTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/gridView"/>
+<!--    <GridView-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:verticalSpacing="10dp"-->
+<!--        android:horizontalSpacing="10dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/gridView"/>-->
 
     <RelativeLayout
         android:layout_width="match_parent"

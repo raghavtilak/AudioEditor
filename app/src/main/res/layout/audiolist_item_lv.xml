@@ -17,13 +17,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/music_item_image"/>
         </LinearLayout>
         <LinearLayout
-            android:paddingEnd="44dp"
+            android:paddingEnd="30dp"
+            android:id="@+id/infolinear"
+            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_toEndOf="@+id/img_container"
             android:orientation="vertical"
@@ -32,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:singleLine="true"
             android:textColor="@color/white"
             android:text="Shape of you"
@@ -43,19 +45,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="4dp"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:singleLine="true"
             android:textColor="@color/white"
             android:text="unknown"/>
         </LinearLayout>
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:id="@+id/play_media_player"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:src="@drawable/play"/>
 
     </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.raghav.audioeditor;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.room.Room;
@@ -32,7 +33,7 @@ import java.util.Objects;
 
 public class AppFiles extends AppCompatActivity implements SongAdapter.OnMusicItemClickListener {
 
-    private GridView gridView;
+//    private GridView gridView;
     private ListView listView;
     private ArrayList<SongModel> videoArrayList;
     private TextView textViewInfo;
@@ -42,8 +43,11 @@ public class AppFiles extends AppCompatActivity implements SongAdapter.OnMusicIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_files);
-        getSupportActionBar().setTitle("App Files");
+//        getSupportActionBar().setTitle("Converted Files");
 
+        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setElevation(0);
         videoArrayList = new ArrayList<>();
 
 
@@ -53,8 +57,8 @@ public class AppFiles extends AppCompatActivity implements SongAdapter.OnMusicIt
 
         listView.setVisibility(View.VISIBLE);
 
-        gridView =(GridView) findViewById(R.id.gridView);
-        gridView.setNumColumns(2);
+//        gridView =(GridView) findViewById(R.id.gridView);
+//        gridView.setNumColumns(2);
 
 
         new BackgroundTask(this) {
@@ -80,7 +84,7 @@ public class AppFiles extends AppCompatActivity implements SongAdapter.OnMusicIt
             }
         }.execute();
 
-        gridView.setVisibility(View.GONE);
+//        gridView.setVisibility(View.GONE);
 
     }
 
